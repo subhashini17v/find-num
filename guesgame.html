@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guess the Number</title>
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <h1>🎯 Guess The Number (1 to 10)</h1>
+
+  <input id="userno" type="number" placeholder="Enter number 1–10" min="1" max="10">
+  <button onclick="check()">Check</button>
+  <button onclick="restart()">Restart</button>
+
+  <p id="result">Start guessing...</p>
+  <p id="score">Score: 10</p>
+
+  <script>
+    var userno = document.getElementById("userno");
+    var result = document.getElementById("result");
+    var score = document.getElementById("score");
+
+    var randomno = Math.floor(Math.random() * 10) + 1;
+    var totalscore = 10;
+
+    function check() {
+      var enteredno = Number(userno.value);
+      
+      if (enteredno < 1 || enteredno > 10 || isNaN(enteredno)) {
+        result.textContent = "⛔ Please enter a number between 1 and 10!";
+        result.style.color = "orange";
+        return;
+      }
+
+      if (enteredno === randomno) {
+        result.textContent = "🎉 Correct! You guessed it!";
+        result.style.color = "green";
+        alert("You won! 🎊");
+        totalscore = 10;
+        score.textContent = "Score: " + totalscore;
+        randomno = Math.floor(Math.random() * 10) + 1;
+      } else {
+        totalscore -= 1;
+        if (totalscore <= 0) {
+          result.textContent = "💥 Game Over! The number was " + randomno;
+          result.style.color = "red";
+          alert("You lost! The number was " + randomno);
+          totalscore = 0;
+          score.textContent = "Score: 0";
+        } else {
+          result.textContent = "❌ Wrong! Try again.";
+          result.style.color = "red";
+          score.textContent = "Score: " + totalscore;
+        }
+      }
+    }
+
+    function restart() {
+      totalscore = 10;
+      randomno = Math.floor(Math.random() * 10) + 1;
+      score.textContent = "Score: " + totalscore;
+      result.textContent = "Start guessing...";
+      result.style.color = "black";
+      userno.value = "";
+    }
+  </script>
+</body>
+</html>
